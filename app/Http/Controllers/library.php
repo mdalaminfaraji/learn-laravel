@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\libraryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -30,27 +31,8 @@ class library extends Controller
         return view('updatelibraryBook', compact('book'));
     }
 
-    public function store(Request $request){
+    public function store(libraryRequest $request){
         return $request;
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'price' => 'required|string',
-            'isbn' => 'required|string|max:13',
-            'publisher' => 'required|string|max:255',
-            'year' => 'required|string|max:4',
-            'pages' => 'required|string',
-            'language' => 'required|string|max:50',
-            'genre' => 'required|string|max:50',
-            'cover' => 'required|string',
-            'stock' => 'required|string'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         try {
             DB::table('library')->insert([
